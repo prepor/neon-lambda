@@ -1,0 +1,73 @@
+<div class="max-w-6xl mx-auto">
+  <h1 class="text-3xl font-bold mb-8">Neon Lambda</h1>
+
+  <div class="mb-4 flex justify-between items-center">
+    <h2 class="text-2xl font-semibold">Instances</h2>
+    <div class="space-x-2">
+      <button
+        phx-click="autoscaler-toggle"
+        id="autoscaleBtn"
+        class={"px-4 py-2 #{if @autoscaler, do: "bg-green-500", else: "bg-gray-500" } text-white rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors duration-200"}
+      >
+        Autoscale:
+        <%= if @autoscaler do %>
+          ON
+        <% else %>
+          OFF
+        <% end %>
+      </button>
+      <button
+        phx-click="scale_up"
+        disabled={@autoscaler}
+        class="px-4 py-2 disabled:bg-gray-500 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+      >
+        +
+      </button>
+      <button
+        phx-click="scale_down"
+        disabled={@autoscaler}
+        class="px-4 py-2 disabled:bg-gray-500 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+      >
+        -
+      </button>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <%= for worker <- @workers do %>
+      <div class="bg-white p-4 rounded-lg shadow-lg border-2 border-grey-500">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center">
+            <div class={"w-4 h-4 rounded-full bg-#{case worker.status do 
+  :ready -> "green"
+  :pending -> "yellow"
+end}-500 mr-2"}>
+            </div>
+            <span class="font-medium">:<%= worker.port %></span>
+          </div>
+        </div>
+        <span class="text-sm text-gray-600"><%= worker.type %></span>
+      </div>
+    <% end %>
+    <!-- Replica 1 -->
+    <%!-- <div class="bg-white p-4 rounded-lg shadow-lg border-t-4 border-green-500"> --%>
+    <%!--   <div class="flex items-center justify-between mb-2"> --%>
+    <%!--     <div class="flex items-center"> --%>
+    <%!--       <div class="w-4 h-4 rounded-full bg-green-500 mr-2"></div> --%>
+    <%!--       <span class="font-medium">Port 5433</span> --%>
+    <%!--     </div> --%>
+    <%!--   </div> --%>
+    <%!--   <span class="text-sm text-gray-600">Replica</span> --%>
+    <%!-- </div> --%>
+    <%!-- <!-- Replica 2 --> --%>
+    <%!-- <div class="bg-white p-4 rounded-lg shadow-lg border-t-4 border-green-500"> --%>
+    <%!--   <div class="flex items-center justify-between mb-2"> --%>
+    <%!--     <div class="flex items-center"> --%>
+    <%!--       <div class="w-4 h-4 rounded-full bg-yellow-500 mr-2"></div> --%>
+    <%!--       <span class="font-medium">Port 5434</span> --%>
+    <%!--     </div> --%>
+    <%!--   </div> --%>
+    <%!--   <span class="text-sm text-gray-600">Replica</span> --%>
+    <%!-- </div> --%>
+  </div>
+</div>
