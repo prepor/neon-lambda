@@ -129,7 +129,7 @@ defmodule NeonLambda.Balancer do
   end
 
   @workers_supervisor NeonLambda.Workers
-  defp(add_worker(type, %{workers: workers, init_port: init_port} = state)) do
+  defp add_worker(type, %{workers: workers, init_port: init_port} = state) do
     port = next_free_port(init_port, workers)
     ref = make_ref()
 
